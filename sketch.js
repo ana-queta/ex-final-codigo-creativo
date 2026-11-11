@@ -9,8 +9,9 @@ const ASCII_CHARS = " .:-=+*#%@";
 const CELL_SIZE = 8;
 const INK = [255, 45, 200];
 const MULTIPLY_AFTER_CLICKS = 5;
-const INVERT_COLORS_AFTER_PHRASES = 250;
-const MAX_PHRASE_COPIES = 256;
+const INVERT_COLORS_AFTER_CLICKS = 10;
+const FAST_MULTIPLY_AFTER_PHRASES = 256;
+const MAX_PHRASE_COPIES = 4096;
 const RESET_PROMPT = "Do you love me?";
 
 // GRELHAS E ORGANIZAÇÃO
@@ -50,7 +51,7 @@ async function setup() {
 }
 
 function draw() {
-  const colorsInverted = phraseCopies.length >= INVERT_COLORS_AFTER_PHRASES;
+  const colorsInverted = clickCount >= INVERT_COLORS_AFTER_CLICKS;
   background(...(colorsInverted ? INK : [0, 0, 0]));
 
   if (!img || !layout) {
@@ -65,7 +66,7 @@ function draw() {
   drawAscii();
   drawPhraseCopies();
 
-  if (phraseCopies.length >= INVERT_COLORS_AFTER_PHRASES) {
+  if (clickCount >= INVERT_COLORS_AFTER_CLICKS) {
     drawResetPrompt();
   }
 }
@@ -82,9 +83,9 @@ function drawPhraseCopies() {
     "love me not": textWidth("love me not")
   };
   const halfHeight = (textAscent() + textDescent()) / 2;
-  fill(...(phraseCopies.length >= INVERT_COLORS_AFTER_PHRASES
+  fill(clickCount >= INVERT_COLORS_AFTER_CLICKS
     ? [0, 0, 0]
-    : INK));
+    : INK);
 
   for (const copy of phraseCopies) {
     const phraseWidth = phraseWidths[copy.text];
@@ -197,7 +198,7 @@ function drawResetPrompt() {
 }
 
 function isResetPromptAt(x, y) {
-  if (phraseCopies.length < INVERT_COLORS_AFTER_PHRASES) return false;
+  if (clickCount < INVERT_COLORS_AFTER_CLICKS) return false;
 
   const bounds = getResetPromptBounds();
   return (
@@ -295,7 +296,7 @@ function buildGrids() {
 // --------------------------------------------------
 
 function drawAscii() {
-  if (phraseCopies.length >= INVERT_COLORS_AFTER_PHRASES) {
+  if (clickCount >= INVERT_COLORS_AFTER_CLICKS) {
     push();
     tint(0);
     image(asciiLayer, 0, 0);
@@ -330,15 +331,21 @@ function mouseClicked() {
   clickCount += 1;
   if (clickCount >= MULTIPLY_AFTER_CLICKS) {
     const copiesToMultiply = phraseCopies.slice();
+    const copiesPerPhrase =
+      phraseCopies.length >= FAST_MULTIPLY_AFTER_PHRASES ? 2 : 1;
 
     for (const copy of copiesToMultiply) {
-      if (phraseCopies.length >= MAX_PHRASE_COPIES) break;
+      for (let i = 0; i < copiesPerPhrase; i += 1) {
+        if (phraseCopies.length >= MAX_PHRASE_COPIES) break;
 
-      phraseCopies.push({
-        text: copy.text,
-        x: random(),
-        y: random()
-      });
+        phraseCopies.push({
+          text: copy.text,
+          x: random(),
+          y: random()
+        });
+      }
+
+      if (phraseCopies.length >= MAX_PHRASE_COPIES) break;
     }
   }
 

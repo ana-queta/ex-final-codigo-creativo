@@ -44,4 +44,60 @@ const index = constrain(
 
 const char = ASCII_CHARS.charAt(index);
 ```
-Desta forma as zonas mais escuras recembem carateres menos densos e as zonas mais claras
+Desta forma as zonas mais escuras recembem carateres menos densos e as zonas mais claras recebem carateres mais densos. O expoente '1.4' ajusta a distribuição tonal da composição.
+
+* interação com o rato 
+
+Ao clicar e arrastar, os caracteres mais próximos do rato recebem uma força de afastamento: 
+
+```js
+const force =
+  (1 - distance / PUSH_RADIUS) * PUSH_FORCE / scale;
+
+cell.vx += (dx / distance) * force;
+cell.vy += (dy / distance) * force;
+```
+
+Quanto mais próximo estiver um carácter do rato, maior é a força
+aplicada. `PUSH_RADIUS` define o alcance da interação e `PUSH_FORCE`
+define a sua intensidade.
+
+### Retorno elástico
+
+Depois de serem afastados, os caracteres regressam às posições
+originais através de um movimento de mola com amortecimento:
+
+```js
+cell.vx = (cell.vx - cell.dx * SPRING) * DAMPING;
+cell.vy = (cell.vy - cell.dy * SPRING) * DAMPING;
+
+cell.dx += cell.vx;
+cell.dy += cell.vy;
+```
+
+`dx` e `dy` representam o deslocamento de cada carácter; `vx` e
+`vy` representam a sua velocidade. `SPRING` controla a força de
+retorno e `DAMPING` reduz progressivamente o movimento, até a
+composição estabilizar.
+
+### Recursos
+
+Ao longo deste projeto utilizei cerca de 4 ferramentas:
+
+* O p5.js web editor para conseguir testar o código em tempo real através da opção auto-refresh 
+
+* Recursos do youtube, em específico dois vídeos da criadora Patt Vira: 
+
+
+**p5.js Coding Tutorial | Interactive Floating Typography**
+
+https://www.youtube.com/watch?v=-6v_AYyn49k
+
+**p5.js Coding Tutorial | ASCII Text Images and Videos!**
+
+https://www.youtube.com/watch?v=4IyeLc6J1Uo&t=51s
+
+* A ferramenta de AI perplexity, que me ajudou a retificar o código inicial e a organizar os pontos mais importantes de se alterar no código.
+
+* A ferramenta de IA Copilot, integrada no Visual Studio Code, ajudou-me, através da experimentação com comandos, a chegar ao resultado final, fornecendo explicações detalhadas sobre cada alteração.
+
