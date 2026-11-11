@@ -95,7 +95,7 @@ https://www.youtube.com/watch?v=-6v_AYyn49k
 * **p5.js Coding Tutorial | ASCII Text Images and Videos!**
 https://www.youtube.com/watch?v=4IyeLc6J1Uo&t=51s
 
-* A ferramenta de AI perplexity, que me ajudou a retificar o código inicial e a organizar os pontos mais importantes de se alterar no código.
+* A ferramenta de IA perplexity, que me ajudou a retificar o código inicial e a organizar os pontos mais importantes de se alterar no código.
 
 * A ferramenta de IA Copilot, integrada no Visual Studio Code, ajudou-me, através da experimentação com comandos, a chegar ao resultado final, fornecendo explicações detalhadas sobre cada alteração.
 
