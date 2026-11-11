@@ -89,12 +89,10 @@ Ao longo deste projeto utilizei cerca de 4 ferramentas:
 * Recursos do youtube, em específico dois vídeos da criadora Patt Vira: 
 
 
-**p5.js Coding Tutorial | Interactive Floating Typography**
-
+* **p5.js Coding Tutorial | Interactive Floating Typography**
 https://www.youtube.com/watch?v=-6v_AYyn49k
 
-**p5.js Coding Tutorial | ASCII Text Images and Videos!**
-
+* **p5.js Coding Tutorial | ASCII Text Images and Videos!**
 https://www.youtube.com/watch?v=4IyeLc6J1Uo&t=51s
 
 * A ferramenta de AI perplexity, que me ajudou a retificar o código inicial e a organizar os pontos mais importantes de se alterar no código.
