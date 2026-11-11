@@ -2,11 +2,11 @@
 
 ### Conceito
 
-"Love me, love me not" é uma experiência visual interativa desenvolvida em p5.js que visa explorar o impacto do amor na emoção humana. 
+"Love me, love me not" é uma experiência visual interativa desenvolvida em p5.js que visa explorar o impacto do amor nas emoções humanas.
 
-Como espectador, é-se recebido por um ecrã que tem como fundo o rosto de uma mulher com a frase "love me". Ao clicar nela, surge a frase "love me not", que dá início a um ciclo de contradição e de sobrecarga de pensamentos. O ciclo para quando aparece no ecrã a frase "Do you love me?"; ao clicar nela, recomeça.
+O espectador é recebido por um ecrã com o rosto de uma mulher em segundo plano e a frase "love me". Ao clicar no ecrã, surge a frase "love me not", que dá início a um ciclo de contradição e sobrecarga de pensamentos. O ciclo termina quando aparece no ecrã a frase "Do you love me?"; ao clicar nela, recomeça.
 
-É uma simulação do _overthinking_ , o ato de pensar em demasia, tornando-se díficil saciar a necessidade de confrimar se o amor é verdadeiro ou se irá durar.
+É uma simulação do _overthinking_, o ato de pensar em demasia, o que torna difícil saciar a necessidade de confirmar se o amor é verdadeiro ou se irá durar.
 
 - Input: imagem e interação com o rato.
 - Expressão: mapeamento ASCII e animação elástica.

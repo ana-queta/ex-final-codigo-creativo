@@ -13,6 +13,7 @@ const INVERT_COLORS_AFTER_CLICKS = 10;
 const FAST_MULTIPLY_AFTER_PHRASES = 256;
 const MAX_PHRASE_COPIES = 4096;
 const RESET_PROMPT = "Do you love me?";
+const SCREEN_SHAKE_AMPLITUDE = 2;
 
 // GRELHAS E ORGANIZAÇÃO
 let asciiGrid = [];
@@ -53,6 +54,9 @@ async function setup() {
 function draw() {
   const colorsInverted = clickCount >= INVERT_COLORS_AFTER_CLICKS;
   background(...(colorsInverted ? INK : [0, 0, 0]));
+  push();
+  const shake = getScreenShakeOffset();
+  translate(shake.x, shake.y);
 
   if (!img || !layout) {
     fill(...(colorsInverted ? [0, 0, 0] : INK));
@@ -60,6 +64,7 @@ function draw() {
     textSize(16);
     textAlign(CENTER, CENTER);
     text("Não foi possível carregar a imagem.", width / 2, height / 2);
+    pop();
     return;
   }
 
@@ -69,6 +74,17 @@ function draw() {
   if (clickCount >= INVERT_COLORS_AFTER_CLICKS) {
     drawResetPrompt();
   }
+  pop();
+}
+
+function getScreenShakeOffset() {
+  if (clickCount < INVERT_COLORS_AFTER_CLICKS) return { x: 0, y: 0 };
+
+  const time = millis() * 0.025;
+  return {
+    x: sin(time * 1.7) * SCREEN_SHAKE_AMPLITUDE,
+    y: sin(time * 2.3 + 1) * SCREEN_SHAKE_AMPLITUDE
+  };
 }
 
 function drawPhraseCopies() {
@@ -183,7 +199,7 @@ function drawResetPrompt() {
   push();
   rectMode(CENTER);
   noStroke();
-  fill(255);
+  fill(0);
   rect(bounds.x, bounds.y, bounds.width, bounds.height, 8);
 
   textFont("monospace");
@@ -192,7 +208,7 @@ function drawResetPrompt() {
   const fitScale = min(1, max(1, width - 48) / textWidth(RESET_PROMPT));
   textSize(min(36, width * 0.06, height * 0.08) * fitScale);
   textAlign(CENTER, CENTER);
-  fill(0);
+  fill(...INK);
   text(RESET_PROMPT, bounds.x, bounds.y);
   pop();
 }
@@ -201,11 +217,14 @@ function isResetPromptAt(x, y) {
   if (clickCount < INVERT_COLORS_AFTER_CLICKS) return false;
 
   const bounds = getResetPromptBounds();
+  const shake = getScreenShakeOffset();
+  const adjustedX = x - shake.x;
+  const adjustedY = y - shake.y;
   return (
-    x >= bounds.x - bounds.width / 2 &&
-    x <= bounds.x + bounds.width / 2 &&
-    y >= bounds.y - bounds.height / 2 &&
-    y <= bounds.y + bounds.height / 2
+    adjustedX >= bounds.x - bounds.width / 2 &&
+    adjustedX <= bounds.x + bounds.width / 2 &&
+    adjustedY >= bounds.y - bounds.height / 2 &&
+    adjustedY <= bounds.y + bounds.height / 2
   );
 }
 
@@ -349,7 +368,11 @@ function mouseClicked() {
     }
   }
 
-  redraw();
+  if (clickCount >= INVERT_COLORS_AFTER_CLICKS) {
+    loop();
+  } else {
+    redraw();
+  }
   return false;
 }
 
